@@ -1,0 +1,100 @@
+<div ng-controller="mainController" class="container">
+
+    <div layout="row" layout-padding="30">
+      <br>
+      <div class="flex-33">
+        <label for="localTeam">Selecciona equipo local: </label>
+        <md-select name="localTeam" ng-model="selectedTeamL" aria-label="localTeam">
+          <md-option ng-value="equipo.abbr" ng-repeat="equipo in equipos">{{ equipo.team }}</md-option>
+        </md-select>
+      </div>
+      <div class="flex-33">
+        <label for="date">Selecciona temporada: </label>
+        <md-select name="date" ng-model="dateModel" aria-label="date">
+          <md-option ng-value="temporada.value" ng-repeat="temporada in temporadas">{{ temporada.name }}</md-option>
+        </md-select>
+      </div>
+      <div class="flex-33">
+        <label for="visitTeam">Selecciona equipo visitante: </label>
+        <md-select name="visitTeam" ng-model="selectedTeamV" aria-label="visitTeam">
+          <md-option ng-value="equipo.abbr" ng-repeat="equipo in equipos">{{ equipo.team }}</md-option>
+        </md-select>
+      </div>
+    </div>
+    <div layout="column">
+      <div layout="row" layout-padding="30" >
+        <md-button class="md-primary" ng-click="onSearchClick()">Buscar Partido</md-button>
+        <div layout="row" ng-hide="hideGame">
+          <label style="padding-top:28px;padding-right:15px;padding-left:46px;" for="selectPartido">Selecciona partido: </label>
+          <md-select name="selectPartido" ng-model="selectedGame" aria-label="selectPartido" ng-change="onChange()">
+            <md-option ng-value="partido" ng-repeat="partido in fullGames track by $index">{{ partido.date | date:'EEEE d MMMM yyyy' }}</md-option>
+          </md-select>
+      </div>
+      </div>
+      <md-button class="md-primary" ng-click="onPredict()" ng-disabled="buttonPred">Realizar Predicción</md-button>
+      <div layout="row" layout-padding="30">
+        <md-list class="flex-25">
+          <p>Resultados Reales {{localR}}</p>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text">
+              <h2>{{localR}}-{{resL}}</h2>
+              <p></p>
+            </div>
+          </md-list-item>
+          <md-list-item class="md-2-line" ng-repeat="player in locales">
+            <div class="md-list-item-text">
+              <h3>{{player.player}}</h3>
+              <p>{{player.puntos}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+        <md-list class="flex-25" style="background:gainsboro">
+          <p>Predicción {{localR}}</p>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text">
+              <h2>{{localR}}-{{predL}}</h2>
+              <p></p>
+            </div>
+            <md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+          </md-list-item>
+          <md-list-item class="md-2-line" ng-repeat="player in predLocal">
+            <div class="md-list-item-text">
+              <h3>{{player.player}}</h3>
+              <p>{{player.pts}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+        <md-list class="flex-25">
+          <p>Resultados Reales {{visitR}}</p>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text">
+              <h2>{{visitR}}-{{resV}}</h2>
+              <p></p>
+            </div>
+          </md-list-item>
+          <md-list-item class="md-2-line" ng-repeat="player in visitantes">
+            <div class="md-list-item-text">
+              <h3>{{player.player}}</h3>
+              <p>{{player.puntos}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+        <md-list class="flex-25" style="background:gainsboro">
+          <p>Predicción {{visitR}}</p>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text">
+              <h2>{{visitR}}-{{predV}}</h2>
+              <p></p>
+            </div>
+            <md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+          </md-list-item>
+          <md-list-item class="md-2-line" ng-repeat="player in predVisit">
+            <div class="md-list-item-text">
+              <h3>{{player.player}}</h3>
+              <p>{{player.pts}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
+    </div>
+</div>
